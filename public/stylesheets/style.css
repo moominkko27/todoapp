@@ -1,4 +1,4 @@
-body {
+/**body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
@@ -7,3 +7,27 @@ a {
   color: #00b7ff;
 }
 
+
+/** 以下塩見さんのサンプル**/
+a {
+  color: #00b7ff;
+}
+
+li {
+  margin-top: 20px;
+}
+
+li.category-orange {
+  border-left-color: orange;
+  border-left-width: 20px;
+}
+
+li.category-green {
+  border-left-color: green;
+  border-left-width: 20px;
+}
+
+li.category-pink {
+  border-left-color: pink;
+  border-left-width: 20px;
+}
