@@ -15,7 +15,7 @@ router.get("/tasks", async function (req, res, next) {
   res.send(getTasks);
 });
 
-/* タスク一覧を削除するルーティング *
+/* タスク一覧を削除するルーティング */
 router.delete("/tasks/:id", async function (req, res, next) {
   const deleteTasksId = await tasks.deleteTasksId(req.params.id);
   res.send(deleteTasksId);
@@ -28,10 +28,10 @@ router.get("/tasks/:id", async function (req, res, next) {
 });
 
 /* タスクを1件更新するルーティング */
-/*router.patch("/tasks/:id", async function (req, res, next) {
+router.patch("/tasks/:id", async function (req, res, next) {
   console.log(req.params.id);
   const patchTasksId = await tasks.patchTasksId(req.params.id, req.body);
   res.send(patchTasksId);
-}); */
+}); 
 
 module.exports = router;

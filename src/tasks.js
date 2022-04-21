@@ -54,7 +54,7 @@ getTasks = async function () {
  * タスクを１件削除する API
  *
  * @returns レスポンス JSON
- *
+ */
 deleteTasksId = async function (id) {
   let connection = null;
   try {
@@ -99,10 +99,11 @@ getTasksId = async function (id) {
  * タスクを１件更新する API
  *
  * @returns レスポンス JSON
- *
+ */
 patchTasksId = async function (id, body) {
   let connection = null;
   try {
+    console.log("tasks.js");
     connection = await mysql.createConnection(config.dbSetting);
     // ここに SQL を記述する
     const sql =
@@ -122,10 +123,10 @@ patchTasksId = async function (id, body) {
   } finally {
     connection.end();
   }
-};*/
+};
 
 exports.getTasks = getTasks;
 exports.postTasks = postTasks;
-//exports.deleteTasksId = deleteTasksId;
+exports.deleteTasksId = deleteTasksId;
 exports.getTasksId = getTasksId;
-//exports.patchTasksId = patchTasksId;
+exports.patchTasksId = patchTasksId;
