@@ -21,6 +21,18 @@
   </head>
   
   <body>
+    <nav class="navbar navbar-light" style="background-color:pink;">
+      <a class="navbar-brand">To Do app</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
+        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+        <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+      </svg>
+      <!--<form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submitt">Search</button>
+      </form>-->
+    </nav>
+
     <div class="container">
       <button
         type="button"
@@ -32,7 +44,7 @@
         新規登録
       </button>
       
-      <ul id="task-list"></ul>
+      <ul id="task-list" class="list-group"></ul>
 
     <!--  <div class="modal" tabindex="-1" role="dialog" id="modal-test" aria-labelledby="modal-test" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -377,15 +389,91 @@
         );
 
         const list = response.map((item) => {
-        //リストを表示
+          const date = new Date(item.deadline);
+          const year = date.getFullYear();
+          const month = ("0" + (date.getMonth() + 1)).slice(-2);
+          const day = ("0" + date.getDate()).slice(-2);
+          //const deadlineVal = year + "年" + month + "月" + day + "日";
+          const deadlineVal = `${year}-${month}-${day}`;  
+          //console.log(deadlineVal);
+              
+
+          //ステータスの色分け
+          /*var sta="test" //varで変数をどういう風にするか宣言
+              if (item.task_status=="1") {//DBのitemからtask_statusを取り出すという意味。ステータスの番号で、item.task_statusが1の完了だったら↓（ピンク）を取り出す
+                var sta="list-group-item list-group-item-danger";
+
+              } else if (item.task_status=="2") {//上の1ではなく2の作業中なら
+                var sta="list-group-item list-group-item-success";
+
+              } else {//1でも2でもないそれ以外（未実施）なら
+                var sta="list-group-item category-black";
+              };
+              console.log(sta);*/
+
+        //チェックボックス
+          var sta = "test"
+              if (item.task_status=="1") {
+                var sta="checked"
+              } else {
+                sta = ""
+              };
+          console.log(sta)
+
+          
+
+        //リストを表示 ここ後で戻す。
+        //(1行目のli class=${sta}は上のitem.task_statusの結果に合わせてif文で分岐。)
           return `
-            <li class="list-group-item category-pink">
+            <li class=list-group-item category-green> 
               <div class="row">
-                <div class="col-6">
+                <div class="col-6"> 
                   <span>${item.task_name}</span>
                 </div>
                 <div class="col-3">
-                  <span>${item.deadline}</span>
+                  <span>${deadlineVal}</span>
+                </div>
+                <div class="col-3">  
+                  <span>
+                    <button 
+                      class="btn btn-primary"
+                      id="update-button" 
+                      data-id=${item.id}
+                      data-toggle="modal"
+                      data-target="#update-modal"
+                    >
+                      更新
+                    </button>
+                  </span> 
+                  <span>
+                    <button
+                      class="btn btn-danger" 
+                      id="delete-button" 
+                      data-id=${item.id} 
+                      data-delete=${item.task_name}>
+                      削除
+                    </button>
+                  </span>
+                  <span>
+                    <input
+                      type="checkbox"
+                      ${sta}
+                    >  
+                </div>
+              </div>           
+            </li>`;  
+        }); 
+
+
+        //checkboxを試すための上のコピー↓
+      /*  return `
+            <li class=list-group-item category-green> 
+              <div class="row">
+                <div class="col-5"> 
+                  <span>${item.task_name}</span>
+                </div>
+                <div class="col-3">
+                  <span>${deadlineVal}</span>
                 </div>
                 <div class="col-3">  
                   <span>
@@ -409,10 +497,21 @@
                     </button>
                   </span>
                 </div>
+                <div class="col-1">
+                  <span>
+                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                    <label class="form-check-label" for="gridCheck1">
+                      完了
+                    </label>
+                  </span>  
               </div>           
             </li>`;  
-        });
+        }); */
 
+
+    
+
+      
         //ulタグにリストを追加
         $("ul#task-list").append(list);
       });  
@@ -445,15 +544,51 @@
         const response = await httpGet(
           "//" + window.location.host + `/api/tasks/${id}`
         );
-        
+      
+
+
+      /*process.stdin.resume();
+      process.stdin.setEncoding(`utf8`);
+      var option value = "1";
+      if(option value == "1") {
+        console.log(li class="list-group-item category-pink");
+      } else if (option value == "2") {
+        console.log(li class="list-group-item category-green");
+      } else {
+        console.log(li class="list-group-item category-black");
+      } */
+
+      /*$(document).on("click", "#update-button", async function () {
+        $("#update-status").show();
+        const id = $()
+      }) */
+
+    
+      /*ステータスボタン押下時(考えたやつ)
+      $(document).on("click", "#update-button", async function () {
+        const taskName = $(this).data("update");
+        if (confirm(`下記の内容を更新します。\n $ {taskNamae}`)) {
+          const id = $(this).data("id");
+        };
+      }); */
        
       //日付をxxxx-xx-xxに変換
+      /*const list = response.map((item) => {
+        const date = new Date(item.deadline);
+        const year = date.getFullYear();
+        const month = date.getMonth() +1;
+        const day = date.getDate();
+
+        const deadline = year + "年" + month + "月" + day + "日";
+      })*/
+
+      //もともと使ってたやつ。
       const date = new Date(response[0].deadline);
       const year = date.getFullYear();
       const month = ("0" + (date.getMonth() + 1)).slice(-2);
       const day = ("0" + date.getDate()).slice(-2);
       const deadlineVal = `${year}-${month}-${day}`;  
-      console.log(response[0]);
+      //console.log(response[0]);
 
       //初期値をセット
       $("#update-form input[name=id]").val(response[0].id);
@@ -463,11 +598,11 @@
       $("#update-form select[name=update-status]").val(response[0].task_status);
       });
 
-    //保存ボタン押下時
-    $("#update-tasks").on("click", async function () {
-      console.log("idmae");
-      const id = $("#update-form input[name=id]").val();
-      console.log("idato");
+      //保存ボタン押下時
+      $("#update-tasks").on("click", async function () {
+        //console.log("idmae");
+        const id = $("#update-form input[name=id]").val();
+        //console.log("idato");  
 
       //リクエストデータをフォームから取得
       const requestData = {
@@ -476,7 +611,7 @@
         category: $("#update-form select[name=update-category]").val(),
         status: $("#update-form select[name=update-status]").val(),
       };
-      console.log("ancedff");
+      //console.log("ancedff");
 
       //新規登録APIを実行
       const resopnse = await httpUpdate(

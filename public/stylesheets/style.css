@@ -18,16 +18,25 @@ li {
 }
 
 li.category-orange {
-  border-left-color: orange;
-  border-left-width: 20px;
+  /*border-left-color: orange;
+  border-left-width: 20px;*/
+  background-color: orange;
 }
 
 li.category-green {
-  border-left-color: green;
-  border-left-width: 20px;
+  /*border-left-color: green;
+  border-left-width: 20px;*/
+  background-color: green;
 }
 
 li.category-pink {
   border-left-color: pink;
   border-left-width: 20px;
+  /*background-color: pink;*/
+}
+
+li.category-black {
+  border-left-color: black;
+  border-left-width: 20px;
+  /*background-color: black;*/
 }

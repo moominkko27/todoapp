@@ -403,7 +403,57 @@
   </div>             
   <--モーダル新規登録終わり--> 
 
+（387～）
+    const list = response.map((item) => {
+    const date = new Date(item.deadline);
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+    const deadlineVal = year + "年" + month + "月" + day + "日";
+    //const deadlineVal = `${year}-${month}-${day}`;  
+    console.log(deadlineVal);
 
+(↑の解説)
+constは変数。const listでリストを作る。それをitemという名前で引っ張ってきている。=itemのdeadlineという意味になる。
+const (date)で関数を定義していて、データベースからdateを引っ張ってきている。そしてdateという中からgetFullYearを引っ張っている。
+const monthの初めの"0"は1桁の月の初めに0を付けるため例えば2月を02月にするということ。date.getMonthの()+1は、VSCodeは10進法で数字を数えているから0から数えていることに
+なって、1から数えるようにしたいから+1を付ける。
+slice(-2)は後ろの2桁を持ってくるという意味。例えば10進法になってるから12月もそのままだと012月になる。それをslice(-2)を
+付けることによって、後ろから2桁をとるという意味になって12月となる。
+
+412行目は新しい関数を定義している。` `はyear/month/dayという変数を文字列として出すことになる。
+
+408のitem.deadlineのdeadlineは412のdeadlineValにつながっていて、
+408のところで一回itemをとってきていて414のconsole.log(deadlineVal)に
+つながる。
+
+
+（397～）
+//リストを表示
+return `
+    <li class="list-group-item category-pink">
+        <div class="row">
+            <div class="col-6">
+                <span>${item.task_name}</span>
+            </div>
+            <div class="col-3">
+                <span>${deadlineVal}</span>
+            </div>
+            <div class="col-3">  
+                <span>
+                    <button 
+                      class="btn btn-primary"
+                      id="update-button" 
+                      data-id=${item.id}
+                      data-toggle="modal"
+                      data-target="#update-modal"
+                    >
+                      更新
+                    </button>
+（↑の解説）
+returnは値をみえるように表示しているもの。
+
+443ラインのitem.idはデータベース上のidを持ってくるということ。
 
 
 
